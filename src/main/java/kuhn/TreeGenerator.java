@@ -2,12 +2,11 @@ package kuhn;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 public class TreeGenerator {
 
-	List<NodePath> generate() {
+	Collection<NodePath> generate() {
 		
 		NodePath path = NodePath.of(new RootNode());
 		
@@ -16,21 +15,28 @@ public class TreeGenerator {
 		
 		// compute all child nodes and paths for startNode
 		paths = new DealCardGenerator().generateChildPaths(paths);
+		System.out.println(paths);
 		paths = new DealCardGenerator().generateChildPaths(paths);
+		System.out.println(paths);
 		paths = new PlayerActionGenerator().generateChildPaths(paths);
+		System.out.println(paths);
 		paths = new PlayerActionGenerator().generateChildPaths(paths);
+		System.out.println(paths);
 		paths = new PlayerActionGenerator().generateChildPaths(paths);
 		
-		for(var p:paths) {
-			System.out.println(p);
-		}
+		dump(paths);
 
 		// compute all child paths
 		
 		// until we arrive to the payoff
 		
 		// 
-		
-		return null;
+		return paths;
+	}
+
+	private void dump(Collection<NodePath> paths) {
+		for(var p:paths) {
+			System.out.println(p);
+		}
 	}
 }

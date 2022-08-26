@@ -11,5 +11,7 @@ public class TreeGeneratorTest {
 		
 		TreeGenerator gen = new TreeGenerator();
 		gen.generate();
+		
+		
 	}
 }

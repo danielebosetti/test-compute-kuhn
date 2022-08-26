@@ -10,7 +10,8 @@ public class PlayerAction implements Node {
 		return type;
 	}
 	
-	public PlayerAction(ActionType action) {
+	public PlayerAction(String player, ActionType action) {
+		this.player = player;
 		value = action;
 		type = NodeType.ACTION;
 	}
@@ -46,6 +47,6 @@ public class PlayerAction implements Node {
 	
 	@Override
 	public String toString() {
-		return value.getCode();
+		return player+":"+ value.getCode();
 	}
 }

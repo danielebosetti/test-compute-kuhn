@@ -36,6 +36,7 @@ public class NodePath {
 		sb.append("NodePath[");
 		for (Node node : nodes) {
 			sb.append(node);
+			sb.append(" ");
 		}
 		sb.append("]");
 		return sb.toString();

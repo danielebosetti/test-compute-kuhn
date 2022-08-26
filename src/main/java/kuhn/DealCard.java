@@ -35,6 +35,6 @@ public class DealCard implements Node {
 	
 	@Override
 	public String toString() {
-		return card;
+		return player+":"+card;
 	}
 }
