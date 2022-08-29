@@ -28,6 +28,11 @@ public class PlayerAction implements Node {
 		public String getCode() {
 			return code;
 		}
+		
+		@Override
+		public String toString() {
+			return code;
+		}
 	}
 
 	@Override
@@ -35,18 +40,29 @@ public class PlayerAction implements Node {
 		return true;
 	}
 
+	// player's action is public
 	@Override
 	public String playerInfoset() {
 		return null;
 	}
 
 	@Override
-	public Object getValue() {
+	public ActionType getValue() {
 		return value;
 	}
 	
 	@Override
 	public String toString() {
 		return player+":"+ value.getCode();
+	}
+
+	@Override
+	public String playerTurn() {
+		return player;
+	}
+
+	@Override
+	public String targetPlayer() {
+		return player;
 	}
 }

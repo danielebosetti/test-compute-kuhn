@@ -4,7 +4,6 @@ public class DealCard implements Node {
 	
 	// the player this card is dealt to
 	String player;
-	
 	// the card dealt to the player
 	String card;
 	
@@ -29,12 +28,23 @@ public class DealCard implements Node {
 	}
 	
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		return card;
 	}
 	
 	@Override
 	public String toString() {
 		return player+":"+card;
+	}
+
+	// it is the dealer's turn
+	@Override
+	public String playerTurn() {
+		return null;
+	}
+
+	@Override
+	public String targetPlayer() {
+		return player;
 	}
 }

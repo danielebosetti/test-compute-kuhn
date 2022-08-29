@@ -26,4 +26,13 @@ public class RootNode implements Node {
 	public String toString() {
 		return "R";
 	}
+
+	@Override
+	public String playerTurn() {
+		return null;
+	}
+	@Override
+	public String targetPlayer() {
+		return null;
+	}
 }
