@@ -122,7 +122,7 @@ public class NodePath {
 		}
 		// compact infoset
 		sb.append(" compact=");
-		sb.append(compactCompleteInfoSet());
+		sb.append(compactCompleteInfoSet(true));
 		// infoset playerA
 		sb.append("\tinfoA=");
 		sb.append(infosetPlayerA());
@@ -170,20 +170,18 @@ public class NodePath {
 		payoffs[winningPlayer] += potSize;
 	}
 
-	public String compactCompleteInfoSet() {
+	public String compactCompleteInfoSet(boolean pad) {
 		StringBuilder res = new StringBuilder();
 		for (var node : nodes) {
 			Object value = node.getValue();
 			res.append(value);
 		}
-		// pad to length 6
-		while (res.length() < 6)
-			res.append(" ");
+		if (pad) {
+			// pad to length 6
+			while (res.length() < 6)
+				res.append(" ");
+		}
 		return res.toString();
-	}
-
-	public String infoSetPlayerA() {
-		return in
 	}
 
 	public String infoSetPlayer(String player) {
@@ -199,26 +197,49 @@ public class NodePath {
 	}
 
 	/*
-	 * given a path (compact=RJKKBF infoA=RJ?KBF infoA=R?KKBF), it prints the
-	 * variable names to be used as "edge probabilities". take into account the
+	 * given a path (example: compact=RJKKBF infoA=RJ?KBF infoA=R?KKBF), it prints
+	 * the variable names to be used as "edge probabilities". take into account the
 	 * active players's turn and its infoset
+	 * 
+	 * vars to be returned in the example are RJ RJK RJ?K R?KKB RJ?KBF
 	 */
 	public List<String> listVars() {
 		List<String> res = new LinkedList<>();
-		String full = compactCompleteInfoSet();
+		String full = compactCompleteInfoSet(false);
 		String infoA = infosetPlayerA();
 		String infoB = infosetPlayerB();
 
 		StringBuilder varA = new StringBuilder();
 		StringBuilder varB = new StringBuilder();
-		
-		int c = 0;
+
+		int c = 1;
 		for (var node : nodes) {
-			
-			
-			if(node.getType())
+			String var;
+			String completeVar = full.substring(0, c);
+			byte[] data_ = completeVar.getBytes();
+			if (completeVar.length() >= 1 && Players.PLAYER_B.equals(node.playerTurn())) {
+				data_[1] = '_';
+			}
+			if (completeVar.length() >= 2 && Players.PLAYER_A.equals(node.playerTurn())) {
+				data_[2] = '_';
+			}
+			var=new String(data_);
+			res.add(var);
+			c++;
 		}
 		return res;
+	}
+	
+	/**
+	 * get an expression representing p_i*f(x_i),
+	 * where x_i is the outcome event in the probability space represented by the
+	 * game tree, p_i is its probability expressed in terms of intermediate probabilities,
+	 * and f(x_i) is the payoff for player_A (the game is zero-sum)
+	 */
+	String getPayoffComponentExpression(VarsCollector varsCollector) {
+		List<String> vars = listVars();
+		varsCollector.collectAll(vars);
+		return String.join(" * ", vars) + " * (" + payoffs[0] + ")";
 	}
 
 }

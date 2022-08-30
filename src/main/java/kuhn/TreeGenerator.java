@@ -33,8 +33,15 @@ public class TreeGenerator {
 	}
 
 	private void dump(Collection<NodePath> paths) {
+		VarsCollector v = new VarsCollector();
 		for(var p:paths) {
-			System.out.println(p);
+			//System.out.println(p);
+			//System.out.println(p.listVars());
+			System.out.println(p.getPayoffComponentExpression(v));
+			System.out.println("+");
 		}
+		System.out.println(0);
+		System.out.println();
+		v.dumpVarsAsDoubles();
 	}
 }
